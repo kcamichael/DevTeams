@@ -1,0 +1,5 @@
+C:\ElevenFiftyProjects\DevTeams\DevTeams.UI\obj\Debug\net6.0\DevTeams.UI.csproj.AssemblyReference.cache
+C:\ElevenFiftyProjects\DevTeams\DevTeams.UI\obj\Debug\net6.0\DevTeams.UI.GeneratedMSBuildEditorConfig.editorconfig
+C:\ElevenFiftyProjects\DevTeams\DevTeams.UI\obj\Debug\net6.0\DevTeams.UI.AssemblyInfoInputs.cache
+C:\ElevenFiftyProjects\DevTeams\DevTeams.UI\obj\Debug\net6.0\DevTeams.UI.AssemblyInfo.cs
+C:\ElevenFiftyProjects\DevTeams\DevTeams.UI\obj\Debug\net6.0\DevTeams.UI.csproj.CoreCompileInputs.cache
