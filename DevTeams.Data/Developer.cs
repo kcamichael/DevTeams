@@ -35,7 +35,6 @@ public bool HasPluralSight { get; set; }
                     $"Full Name: {FullName}" +
                     $"Has PluralSight Access: {HasPluralsight}\n" +
                     "===================\n";
-        
         return str;
     }
 }
