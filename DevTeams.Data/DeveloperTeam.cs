@@ -9,7 +9,6 @@ public class DeveloperTeam
     public DeveloperTeam(string teamName)
     {
         TeamName = teamName;
-        Developers = developers;
     }
 
     //full constructor
@@ -21,7 +20,15 @@ public class DeveloperTeam
     
     //[Key]
     public int ID { get; set; }
-    public string TeamName { get; set; }= string.Empty
+    public string TeamName { get; set; }= string.Empty;
+
+    public string FullName 
+    { 
+        get
+        {
+            return $"{FirstName} {LastName}";
+        }
+    }
     public List<Developer> Developers { get; set; } = new List<Developer>();
 
     public override string ToString()

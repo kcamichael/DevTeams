@@ -38,9 +38,7 @@ public class DevTeamRepository
     }
 
     //Read by ID (helper method(?))
-    public bool DeveloperTeam 
-
-    GetDeveloperTeam(int devTeamId)
+    public DeveloperTeam GetDeveloperTeam(int devTeamId)
     {
         foreach (DeveloperTeam team in collection)
         {
@@ -105,19 +103,19 @@ public class DevTeamRepository
         {
             TeamName = "Java Script Devs"
         };
-        Js.Developers.Add(_devRepo.GetDeveloperById(3))
+        Js.Developers.Add(_devRepo.GetDeveloperById(3));     //damon
+
 
         DeveloperTeam ice = new DeveloperTeam()
         {
             TeamName = "C# Sharp Devs"
         };
-        cSharp.Developers.Add(_devRepo.GetDeveloperById(1))
-        cSharp.Developers.Add(_devRepo.GetDeveloperById(2))
+        cSharp.Developers.Add(_devRepo.GetDeveloperById(1));   //george
+        cSharp.Developers.Add(_devRepo.GetDeveloperById(2));  //richard
 
         DeveloperTeam java = new DeveloperTeam()
         {
             TeamName = "Java Devs"
         };
-
     }
 }

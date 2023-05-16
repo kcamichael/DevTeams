@@ -42,7 +42,7 @@ public class ProgramUI
 
             string userInput = Console.ReadLine()!;
 
-            switch (userInput)
+            switch (userInput);
 
         }
     }

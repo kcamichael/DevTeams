@@ -21,19 +21,19 @@ public class Developer
     public string LastName { get; set; } =string.Empty;
     public string FullName 
     { 
-        get;
+        get
         {
             return $"{FirstName} {LastName}";
         }
     }
 public bool HasPluralSight { get; set; }
 
-//Is everytime I do: Developer.ToString() I want to be able to populate the Developer's Name and whether or not they have PluralSight
+//Is every time I do: Developer.ToString() I want to be able to populate the Developer's Name and whether or not they have PluralSight
     public override string ToString()
     {
         var str = $"ID: {ID}\n"+
                     $"Full Name: {FullName}" +
-                    $"Has PluralSight Access: {HasPluralsight}\n" +
+                    $"Has PluralSight Access: {HasPluralSight}\n" +
                     "===================\n";
         return str;
     }
