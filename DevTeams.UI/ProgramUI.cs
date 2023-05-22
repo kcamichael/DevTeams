@@ -46,43 +46,43 @@ public class ProgramUI
 
             switch (userInput)
             {
-                case 1:
+                case "1":
                     ViewAllDevelopers();
                     break;
-                case 2:
+                case "2":
                     ViewADeveloperByID();
                     break;
-                case 3:
+                case "3":
                     CreateDeveloper();
                     break;
-                case 4:
+                case "4":
                     UpdateDeveloper();
                     break;
-                case 5:
+                case "5":
                     DeleteDeveloper();
                     break;
-                case 6:
-                    ViewAllDeveloperTeams();
+                case "6":
+                    ViewAllDevTeams();
                     break;
-                case 7:
-                    ViewTeamByID();
+                case "7":
+                    ViewADeveloperByID();
                     break;
-                case 8:
-                    AddDeveloperTeam();
+                case "8":
+                    AddDevTeam();
                     break;
-                case 9:
-                    UpdateDeveloperTeam();
+                case "9":
+                    UpdateExistingDevTeam();
                     break;
-                case 10:
-                    DeleteDeveloperTeam();
+                case "10":
+                    DeleteExistingDevTeam();
                     break;
-                case 11:
-                    DevelopersWithoutPS();
+                case "11":
+                    DevelopersWithoutPluralSightAccount();
                     break;
-                case 12:
-                    AddMultiDevsToTeam();
+                case "12":
+                    AddMultipleDevelopersToATeam();
                     break;
-                case 00:
+                case "00":
                     _isRunning = ExitApplication();
                     break;
                 default:
@@ -108,37 +108,33 @@ public class ProgramUI
         return false;
     }
 
-    private void AddMultiDevsToTeam()
+    private void AddMultipleDevelopersToATeam()
     {
         throw new NotImplementedException();
     }
 
-    private void DevelopersWithoutPS()
+
+    private void DeleteExistingDevTeam()
     {
         throw new NotImplementedException();
     }
 
-    private void DeleteDeveloperTeam()
+    private void UpdateExistingDevTeam()
     {
         throw new NotImplementedException();
     }
 
-    private void UpdateDeveloperTeam()
+    private void ViewDevTeamByID()
     {
         throw new NotImplementedException();
     }
 
-    private void AddDeveloperTeam()
+    private void ViewAllDevTeams()
     {
         throw new NotImplementedException();
     }
 
-    private void ViewTeamByID()
-    {
-        throw new NotImplementedException();
-    }
-
-    private void ViewAllDeveloperTeams()
+    private void AddDevTeam()
     {
         throw new NotImplementedException();
     }
@@ -349,5 +345,39 @@ public class ProgramUI
         }
 
         PressAnyKey();
+    }
+
+    private void ShowEnlistedDevs()
+    {
+        Console.Clear();
+        Console.WriteLine("=== Developer Listing ===");
+        List<Developer> devsInDb = _dRepo.GetDevelopers();
+        ValidateDeveloperDatabaseData(devsInDb);
+    }
+
+    private void ValidateDeveloperDatabaseData(List<Developer> devsInDb)
+    {
+        if(devsInDb.Count > 0)
+        {
+            Console.Clear();
+            foreach (Developer dev in devsInDb)
+            {
+                DisplayDevData(dev);
+            }
+        }
+        else
+        {
+            System.Console.WriteLine("There are no Developers in ThreadExceptionEventArgs Database.");
+        }
+    }
+
+    private void DisplayDevData(Developer dev)
+    {
+        System.Console.WriteLine(dev);
+    }
+
+    private void DevelopersWithoutPluralSightAccount()
+    {
+        throw new NotImplementedException();
     }
 }
