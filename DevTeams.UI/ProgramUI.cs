@@ -121,316 +121,272 @@ public class ProgramUI
 
     private void UpdateExistingDevTeam()
     {
-        Console.Clear();
-        System.Console.WriteLine("== Developer Team Listing ==");
-        GetDevTeamData();
-        List<DeveloperTeam> dTeam = _dTRepo.GetDeveloperTeam();
-        if(dTeam.Count() > 0)
-        {
-            System.Console.WriteLine("Please select a DevTeamId for Update.");
-            int userInputDevTeamId = int.Parse(Console.ReadLine()!);
-            DeveloperTeam team = _dTRepo.GetDeveloperTeam(userInputDevTeamId);
-
-            if(team!= null)
-            {
-                DeveloperTeam updatedTeamData = InitializeDTeamCreation();
-                if(_dTRepo.UpdateDevTeam(team.ID,updatedTeamData))
-                {
-                    System.Console.WriteLine("Success!");
-                }
-                else
-                {
-                    System.Console.WriteLine("fail");
-                }
-            }
-            else
-            {
-                System.Console.WriteLine("Sorry you used an invalid ID.");
-            }
-        }
-    }
-
-    private void AddDevTeam()
-    {
-        Console.Clear();
-        DeveloperTeam dTeam = InitializeDTeamCreation();
-
-        if(_dTRepo.AddDevTeam(dTeam))
-        {
-            System.Console.WriteLine("Success!");
-        }
-        else
-        {
-            System.Console.WriteLine("Fail!");
-        }
-        PressAnyKey();
-    }
-
-    private DeveloperTeam InitializeDTeamCreation()
-    {
-        DeveloperTeam team = new DeveloperTeam();
         try
         {
-            DeveloperTeam team = new DeveloperTeam();
-
-            System.Console.WriteLine("Please enter the team name");
-            team.TeamName = Console.ReadLine()!;
-
-            // We nee a bool that allows us to add members to our team
-            bool hasFilledPositions = false;
-
-            //Create a List for dynamic display
-            List<Developer> auxDevelopers = _dRepo.GetDevelopers();
-
-            while(hasFilledPositions == false)
+            Console.Clear();
+            System.Console.WriteLine("== Developer Team Listing ==");
+            GetDevTeamData();
+            List<DeveloperTeam> dTeam = _dTRepo.GetDeveloperTeam();
+            if (dTeam.Count() > 0)
             {
-                System.Console.WriteLine("Does this team have any developers y/n?");
-                string userInputAnyDevs = Console.ReadLine()!.ToLower();
-                if(userInputAnyDevs == "y")
+                System.Console.WriteLine("Please select a DevTeamId for Update.");
+                int userInputDevTeamId = int.Parse(Console.ReadLine()!);
+                DeveloperTeam team = _dTRepo.GetDeveloperTeam(userInputDevTeamId);
+
+                if (team != null)
                 {
-                    if(auxDevelopers.Count() > 0)
+                    DeveloperTeam updatedTeamData = InitializeDTeamCreation();
+                    if (_dTRepo.UpdateDevTeam(team.ID, updatedTeamData))
                     {
-                        DisplayDevelopersInDb(auxDevelopers);
-                        
-                        System.Console.WriteLine("Select a developer by ID");
-                        int userInputDevId = int.Parse(Console.ReadLine()!);
-
-                        Developer selectedDeveloper = _dRepo.GetDeveloperById(userInputDevId);
-
-                        if(selectedDeveloper != null)
-                        {
-                            team.Developers.Add(selectedDeveloper);
-                            auxDevelopers.Remove(selectedDeveloper);
-                        }
-                        else
-                        {
-                            System.Console.WriteLine("Sorry, the developer doesn't exist!");
-                        }
+                        System.Console.WriteLine("Success!");
                     }
                     else
                     {
-                        System.Console.WriteLine("There are no Developer's in the Database");
-                        PressAnyKey();
-                        break;
+                        System.Console.WriteLine("fail");
                     }
                 }
                 else
                 {
-                    hasFilledPositions = true;
+                    System.Console.WriteLine("Sorry you used an invalid ID.");
                 }
             }
-            return team;
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             System.Console.WriteLine(ex.Message);
             SomethingWentWrong();
         }
-        return null;
     }
 
-    private void DisplayDevelopersInDb(List<Developer> auxDevelopers)
+private void AddDevTeam()
+{
+    Console.Clear();
+    DeveloperTeam dTeam = InitializeDTeamCreation();
+
+    if (_dTRepo.AddDevTeam(dTeam))
     {
-        if(auxDevelopers.Count() > 0)
+        System.Console.WriteLine("Success!");
+    }
+    else
+    {
+        System.Console.WriteLine("Fail!");
+    }
+    PressAnyKey();
+}
+
+private DeveloperTeam InitializeDTeamCreation()
+{
+    DeveloperTeam team = new DeveloperTeam();
+    try
+    {
+        DeveloperTeam team = new DeveloperTeam();
+
+        System.Console.WriteLine("Please enter the team name");
+        team.TeamName = Console.ReadLine()!;
+
+        // We nee a bool that allows us to add members to our team
+        bool hasFilledPositions = false;
+
+        //Create a List for dynamic display
+        List<Developer> auxDevelopers = _dRepo.GetDevelopers();
+
+        while (hasFilledPositions == false)
         {
-            foreach (Developer dev in auxDevelopers)
+            System.Console.WriteLine("Does this team have any developers y/n?");
+            string userInputAnyDevs = Console.ReadLine()!.ToLower();
+            if (userInputAnyDevs == "y")
             {
-                System.Console.WriteLine(dev);
+                if (auxDevelopers.Count() > 0)
+                {
+                    DisplayDevelopersInDb(auxDevelopers);
+
+                    System.Console.WriteLine("Select a developer by ID");
+                    int userInputDevId = int.Parse(Console.ReadLine()!);
+
+                    Developer selectedDeveloper = _dRepo.GetDeveloperById(userInputDevId);
+
+                    if (selectedDeveloper != null)
+                    {
+                        team.Developers.Add(selectedDeveloper);
+                        auxDevelopers.Remove(selectedDeveloper);
+                    }
+                    else
+                    {
+                        System.Console.WriteLine("Sorry, the developer doesn't exist!");
+                    }
+                }
+                else
+                {
+                    System.Console.WriteLine("There are no Developer's in the Database");
+                    PressAnyKey();
+                    break;
+                }
+            }
+            else
+            {
+                hasFilledPositions = true;
             }
         }
+        return team;
     }
-
-    private void ViewDevTeamByID()
+    catch (Exception ex)
     {
-        Console.Clear();
-        System.Console.WriteLine("== Developer Team Listing ==");
-        GetDevTeamData();
-        List<DeveloperTeam> devTeam = _dTRepo.GetDeveloperTeam();
-        if(devTeam.Count > 0)
+        System.Console.WriteLine(ex.Message);
+        SomethingWentWrong();
+    }
+    return null;
+}
+
+private void DisplayDevelopersInDb(List<Developer> auxDevelopers)
+{
+    if (auxDevelopers.Count() > 0)
+    {
+        foreach (Developer dev in auxDevelopers)
         {
-            System.Console.WriteLine("Select Dev Team by ID");
-            int userInputDevTeamId = int.Parse(Console.ReadLine()!);
-            ValidateDevTeamData(userInputDevTeamId);
+            System.Console.WriteLine(dev);
         }
-        PressAnyKey();
     }
+}
 
-    private void ValidateDevTeamData(int userInputDevTeamId)
+private void ViewDevTeamByID()
+{
+    Console.Clear();
+    System.Console.WriteLine("== Developer Team Listing ==");
+    GetDevTeamData();
+    List<DeveloperTeam> devTeam = _dTRepo.GetDeveloperTeam();
+    if (devTeam.Count > 0)
     {
-        DeveloperTeam team = _dTRepo.GetDeveloperTeam(userInputDevTeamId);
-        if(team != null)
+        System.Console.WriteLine("Select Dev Team by ID");
+        int userInputDevTeamId = int.Parse(Console.ReadLine()!);
+        ValidateDevTeamData(userInputDevTeamId);
+    }
+    PressAnyKey();
+}
+
+private void ValidateDevTeamData(int userInputDevTeamId)
+{
+    DeveloperTeam team = _dTRepo.GetDeveloperTeam(userInputDevTeamId);
+    if (team != null)
+    {
+        DisplayDeveloperTeamData(team);
+    }
+    else
+    {
+        System.Console.WriteLine("Sorry Team doesn't Exist!");
+    }
+}
+
+private void ViewAllDevTeams()
+{
+    Console.Clear();
+    System.Console.WriteLine("== Developer Team Listing ==");
+    GetDevTeamData();
+    PressAnyKey();
+}
+
+private void GetDevTeamData()
+{
+    List<DeveloperTeam> dTeams = _dTRepo.GetDeveloperTeam();
+    if (dTeams.Count > 0)
+    {
+        foreach (DeveloperTeam team in dTeams)
         {
             DisplayDeveloperTeamData(team);
         }
-        else
+    }
+    else
+    {
+        System.Console.WriteLine("There are no available Developer Teams!");
+    }
+}
+
+private void DisplayDeveloperTeamData(DeveloperTeam team)
+{
+    System.Console.WriteLine(team);
+}
+
+private void DevelopersWithPluralSightAccount()
+{
+    List<Developer> devsWoPS = _dRepo.GetDevelopersWithoutPluralsight();
+
+    if (devsWoPS.Count() > 0)
+        foreach (Developer dev in devsWoPS)
         {
-            System.Console.WriteLine("Sorry Team doesn't Exist!");
+            DisplayDevData(dev);
         }
+    else
+    {
+        System.Console.WriteLine("Every Developer has PluralSight");
     }
 
-    private void ViewAllDevTeams()
+    PressAnyKey();
+}
+
+private void DeleteDeveloper()
+{
+    Console.Clear();
+    try
     {
         Console.Clear();
-        System.Console.WriteLine("== Developer Team Listing ==");
-        GetDevTeamData();
-        PressAnyKey();
-    }
+        System.Console.WriteLine("== Delete Developer ==");
 
-    private void GetDevTeamData()
-    {
-        List<DeveloperTeam> dTeams = _dTRepo.GetDeveloperTeam();
-        if(dTeams.Count > 0)
+        foreach (var dev in _dRepo.GetDevelopers())
         {
-            foreach (DeveloperTeam team in dTeams)
-            {
-                DisplayDeveloperTeamData(team);
-            }
+            System.Console.WriteLine($"{dev.ID} - {dev.FullName}");
         }
-        else
-        {
-            System.Console.WriteLine("There are no available Developer Teams!");
-        }
-    }
+        System.Console.WriteLine("=============================\n");
 
-    private void DisplayDeveloperTeamData(DeveloperTeam team)
-    {
-        System.Console.WriteLine(team);
-    }
+        System.Console.WriteLine("Please input a Developer Id");
+        int userInputDevId = int.Parse(Console.ReadLine()!);
 
-    private void DevelopersWithPluralSightAccount()
-    {
-        List<Developer> devsWoPS = _dRepo.GetDevelopersWithoutPluralsight();
+        Developer selectedDev = _dRepo.GetDeveloperById(userInputDevId);
 
-        if (devsWoPS.Count() > 0)
-            foreach (Developer dev in devsWoPS)
-            {
-                DisplayDevData(dev);
-            }
-        else
-        {
-            System.Console.WriteLine("Every Developer has PluralSight");
-        }
-        
-        PressAnyKey();
-    }
-
-    private void DeleteDeveloper()
-    {
-        Console.Clear();
-        try
+        if (selectedDev != null)
         {
             Console.Clear();
-            System.Console.WriteLine("== Delete Developer ==");
-
-            foreach (var dev in _dRepo.GetDevelopers())
+            if (_dRepo.DeleteDeveloper(selectedDev.ID))
             {
-                System.Console.WriteLine($"{dev.ID} - {dev.FullName}");
-            }
-            System.Console.WriteLine("=============================\n");
-
-            System.Console.WriteLine("Please input a Developer Id");
-            int userInputDevId = int.Parse(Console.ReadLine()!);
-
-            Developer selectedDev = _dRepo.GetDeveloperById(userInputDevId);
-
-            if (selectedDev != null)
-            {
-                Console.Clear();
-                if (_dRepo.DeleteDeveloper(selectedDev.ID))
-                {
-                    System.Console.WriteLine("SUCCESS!");
-                }
-                else
-                {
-                    System.Console.WriteLine("FAIL!");
-                }
+                System.Console.WriteLine("SUCCESS!");
             }
             else
             {
-                System.Console.WriteLine($"The Developer with the id: {userInputDevId} doesn't Exist!");
+                System.Console.WriteLine("FAIL!");
             }
         }
-        catch (Exception ex)
+        else
         {
-            System.Console.WriteLine(ex.Message);
+            System.Console.WriteLine($"The Developer with the id: {userInputDevId} doesn't Exist!");
         }
-
-        PressAnyKey();
+    }
+    catch (Exception ex)
+    {
+        System.Console.WriteLine(ex.Message);
     }
 
-    private void UpdateDeveloper()
+    PressAnyKey();
+}
+
+private void UpdateDeveloper()
+{
+    Console.Clear();
+    try
     {
-        Console.Clear();
-        try
+        System.Console.WriteLine("== Update Developer ==");
+
+        foreach (var dev in _dRepo.GetDevelopers())
         {
-            System.Console.WriteLine("== Update Developer ==");
-
-            foreach (var dev in _dRepo.GetDevelopers())
-            {
-                System.Console.WriteLine($"{dev.ID} - {dev.FullName}");
-            }
-            System.Console.WriteLine("=============================\n");
-
-            System.Console.WriteLine("Please input a Developer Id");
-            int userInputDevId = int.Parse(Console.ReadLine()!);
-
-            Developer selectedDev = _dRepo.GetDeveloperById(userInputDevId);
-
-            if (selectedDev != null)
-            {
-                Console.Clear();
-
-                //create an empty form 
-                Developer developerForm = new Developer();
-
-                System.Console.WriteLine("Please enter a First Name:");
-                developerForm.FirstName = Console.ReadLine()!;
-
-                System.Console.WriteLine("Please enter a Last Name:");
-                developerForm.LastName = Console.ReadLine()!;
-
-                System.Console.WriteLine("Does this Developer have Ps? y/n");
-
-                string userInput = Console.ReadLine()!.ToLower();
-
-                if (userInput == "y")
-                {
-                    developerForm.HasPluralSight = true;
-                }
-                else
-                {
-                    developerForm.HasPluralSight = false;
-                }
-
-                if (_dRepo.UpdateDeveloper(selectedDev.ID, developerForm))
-                {
-                    System.Console.WriteLine("SUCCESS!");
-                }
-                else
-                {
-                    System.Console.WriteLine("FAIL!");
-                }
-            }
-            else
-            {
-                System.Console.WriteLine($"The Developer with the id: {userInputDevId} doesn't Exist!");
-            }
+            System.Console.WriteLine($"{dev.ID} - {dev.FullName}");
         }
-        catch (Exception ex)
-        {
-            System.Console.WriteLine(ex.Message);
-        }
+        System.Console.WriteLine("=============================\n");
 
-        PressAnyKey();
-    }
+        System.Console.WriteLine("Please input a Developer Id");
+        int userInputDevId = int.Parse(Console.ReadLine()!);
 
-    private void AddDeveloper()
-    {
-        try
+        Developer selectedDev = _dRepo.GetDeveloperById(userInputDevId);
+
+        if (selectedDev != null)
         {
             Console.Clear();
-
-            System.Console.WriteLine("== Add Developer Menu ==");
 
             //create an empty form 
             Developer developerForm = new Developer();
@@ -454,7 +410,7 @@ public class ProgramUI
                 developerForm.HasPluralSight = false;
             }
 
-            if (_dRepo.AddDeveloper(developerForm))
+            if (_dRepo.UpdateDeveloper(selectedDev.ID, developerForm))
             {
                 System.Console.WriteLine("SUCCESS!");
             }
@@ -463,100 +419,152 @@ public class ProgramUI
                 System.Console.WriteLine("FAIL!");
             }
         }
-        catch (Exception ex)
-        {
-            System.Console.WriteLine(ex.Message);
-        }
-
-        PressAnyKey();
-    }
-
-    private void ViewDeveloperByID()
-    {
-        try
-        {
-            Console.Clear();
-            System.Console.WriteLine("Please input a Developer Id");
-            int userInputDevId = int.Parse(Console.ReadLine()!);
-            ValidateDeveloperInDatabaseData(userInputDevId);
-        }
-        catch (Exception ex)
-        {
-            SomethingWentWrong();
-            // if it doesn't work display the error, swallow the error and continue running the application.
-            System.Console.WriteLine(ex.Message);
-        }
-        PressAnyKey();
-    }
-
-    private bool ValidateDeveloperInDatabaseData(int userInputDevId)
-    {
-        Developer dev = GetDeveloperDataFromDv(userInputDevId);
-        if (dev != null)
-        {
-            Console.Clear();
-            DisplayDevData(dev);
-            return true;
-        }
         else
         {
-            Console.WriteLine($"The Developer with the id: {userInputDevId}doesn't Exist!");
-            return false;
+            System.Console.WriteLine($"The Developer with the id: {userInputDevId} doesn't Exist!");
         }
     }
-
-    private Developer GetDeveloperDataFromDv(int userInputDevId)
+    catch (Exception ex)
     {
-        return _dRepo.GetDeveloperById(userInputDevId);
+        System.Console.WriteLine(ex.Message);
     }
 
-    private void SomethingWentWrong()
-    {
-        System.Console.WriteLine("Something went wrong.\n" +
-        "Please Try Again.\n" +
-        "Returning to Developer Menu.\n");
-    }
+    PressAnyKey();
+}
 
-    private void ViewAllDevelopers()
+private void AddDeveloper()
+{
+    try
     {
         Console.Clear();
 
-        System.Console.WriteLine("== Dev Listing ==");
+        System.Console.WriteLine("== Add Developer Menu ==");
 
-        foreach (var dev in _dRepo.GetDevelopers())
+        //create an empty form 
+        Developer developerForm = new Developer();
+
+        System.Console.WriteLine("Please enter a First Name:");
+        developerForm.FirstName = Console.ReadLine()!;
+
+        System.Console.WriteLine("Please enter a Last Name:");
+        developerForm.LastName = Console.ReadLine()!;
+
+        System.Console.WriteLine("Does this Developer have Ps? y/n");
+
+        string userInput = Console.ReadLine()!.ToLower();
+
+        if (userInput == "y")
         {
-            System.Console.WriteLine(dev);
-        }
-
-        PressAnyKey();
-    }
-
-    private void ShowEnlistedDevs()
-    {
-        Console.Clear();
-        Console.WriteLine("=== Developer Listing ===");
-        List<Developer> devsInDb = _dRepo.GetDevelopers();
-        ValidateDeveloperDatabaseData(devsInDb);
-    }
-
-    private void ValidateDeveloperDatabaseData(List<Developer> devsInDb)
-    {
-        if (devsInDb.Count > 0)
-        {
-            Console.Clear();
-            foreach (Developer dev in devsInDb)
-            {
-                DisplayDevData(dev);
-            }
+            developerForm.HasPluralSight = true;
         }
         else
         {
-            System.Console.WriteLine("There are no Developers in ThreadExceptionEventArgs Database.");
+            developerForm.HasPluralSight = false;
+        }
+
+        if (_dRepo.AddDeveloper(developerForm))
+        {
+            System.Console.WriteLine("SUCCESS!");
+        }
+        else
+        {
+            System.Console.WriteLine("FAIL!");
         }
     }
+    catch (Exception ex)
+    {
+        System.Console.WriteLine(ex.Message);
+    }
 
-    private void DisplayDevData(Developer dev)
+    PressAnyKey();
+}
+
+private void ViewDeveloperByID()
+{
+    try
+    {
+        Console.Clear();
+        System.Console.WriteLine("Please input a Developer Id");
+        int userInputDevId = int.Parse(Console.ReadLine()!);
+        ValidateDeveloperInDatabaseData(userInputDevId);
+    }
+    catch (Exception ex)
+    {
+        SomethingWentWrong();
+        // if it doesn't work display the error, swallow the error and continue running the application.
+        System.Console.WriteLine(ex.Message);
+    }
+    PressAnyKey();
+}
+
+private bool ValidateDeveloperInDatabaseData(int userInputDevId)
+{
+    Developer dev = GetDeveloperDataFromDv(userInputDevId);
+    if (dev != null)
+    {
+        Console.Clear();
+        DisplayDevData(dev);
+        return true;
+    }
+    else
+    {
+        Console.WriteLine($"The Developer with the id: {userInputDevId}doesn't Exist!");
+        return false;
+    }
+}
+
+private Developer GetDeveloperDataFromDv(int userInputDevId)
+{
+    return _dRepo.GetDeveloperById(userInputDevId);
+}
+
+private void SomethingWentWrong()
+{
+    System.Console.WriteLine("Something went wrong.\n" +
+    "Please Try Again.\n" +
+    "Returning to Developer Menu.\n");
+}
+
+private void ViewAllDevelopers()
+{
+    Console.Clear();
+
+    System.Console.WriteLine("== Dev Listing ==");
+
+    foreach (var dev in _dRepo.GetDevelopers())
     {
         System.Console.WriteLine(dev);
     }
+
+    PressAnyKey();
+}
+
+private void ShowEnlistedDevs()
+{
+    Console.Clear();
+    Console.WriteLine("=== Developer Listing ===");
+    List<Developer> devsInDb = _dRepo.GetDevelopers();
+    ValidateDeveloperDatabaseData(devsInDb);
+}
+
+private void ValidateDeveloperDatabaseData(List<Developer> devsInDb)
+{
+    if (devsInDb.Count > 0)
+    {
+        Console.Clear();
+        foreach (Developer dev in devsInDb)
+        {
+            DisplayDevData(dev);
+        }
+    }
+    else
+    {
+        System.Console.WriteLine("There are no Developers in ThreadExceptionEventArgs Database.");
+    }
+}
+
+private void DisplayDevData(Developer dev)
+{
+    System.Console.WriteLine(dev);
+}
 }
