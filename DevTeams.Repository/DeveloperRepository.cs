@@ -57,7 +57,7 @@ public class DeveloperRepository
     }
 
     //Update
-    public bool UpdateDeveloper(int developer, Developer newDevData)
+    public bool UpdateDeveloper(int developerId, Developer newDevData)
     {
         //check if developer exists
         Developer oldDevData = GetDeveloperById(developerId);
@@ -118,20 +118,20 @@ public class DeveloperRepository
         //Create developers to add to the database
         Developer george = new Developer
             {
-                FirstName = "George"
-                LastName = "Carlin"
+                FirstName = "George",
+                LastName = "Carlin",
                 HasPluralSight = true
             };
         Developer richard = new Developer
             {
-                FirstName = "Richard"
-                LastName = "Pryor"
+                FirstName = "Richard",
+                LastName = "Pryor",
                 HasPluralSight = false
             };
         Developer damon = new Developer
             {
-                FirstName = "Damon"
-                LastName = "Wayans"
+                FirstName = "Damon",
+                LastName = "Wayans",
                 HasPluralSight = true
             };
     

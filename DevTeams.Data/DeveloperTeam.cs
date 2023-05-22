@@ -21,25 +21,24 @@ public class DeveloperTeam
     //[Key]
     public int ID { get; set; }
     public string TeamName { get; set; }= string.Empty;
-
-    public string FullName 
-    { 
-        get
-        {
-            return $"{FirstName} {LastName}";
-        }
-    }
     public List<Developer> Developers { get; set; } = new List<Developer>();
 
     public override string ToString()
     {
         var str =   $"ID: {ID}\n"+
-                    $"Full Name: {FullName}" +
+                    $"Team Name: {TeamName}" +
                     "===================\n";
-        foreach (Developer dev in Developers)
+        if(Developers.Count()>0)
+        {
+            foreach (Developer dev in Developers)
             {
-                str += decimal + "/n";
+                str += $"{dev}\n";
             }
+        }
+        else
+        {
+            System.Console.WriteLine("No Avail.Devs.");
+        }
             
         return str;
     }

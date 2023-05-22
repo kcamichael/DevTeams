@@ -40,7 +40,7 @@ public class DevTeamRepository
     //Read by ID (helper method(?))
     public DeveloperTeam GetDeveloperTeam(int devTeamId)
     {
-        foreach (DeveloperTeam team in collection)
+        foreach (DeveloperTeam team in _devTeamDb)
         {
             if(team.ID == devTeamId)
             {
