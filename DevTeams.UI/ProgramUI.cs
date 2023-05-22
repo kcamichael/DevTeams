@@ -23,23 +23,23 @@ public class ProgramUI
         while (isRunning)
         {
             Console.Clear();
-            System.Console.WriteLine("Welcome to Komodo DevTeams\n"+
-                "===========Developer Management==========\n"+
-                "1. View All Developers\n"+
-                "2. View Developer by Id\n"+
-                "3. Add Developer\n"+
-                "4. Update Existing Developer\n"+
-                "5. Delete Existing Developer\n"+
-                "===========Dev Team Management============\n"+
-                "6. View All DevTeams\n"+
-                "7. View DevTeam by Id\n"+
-                "8. Add DevTeam\n"+
-                "9. Update Existing DevTeam\n"+
-                "10. Delete Existing Devteam\n"+
-                "====================Bonus================\n"+
-                "11. Developers with PluralSight Account\n"+
-                "12. Add Multiple Developers to a team\n"+
-                "====================Exit App================\n"+
+            System.Console.WriteLine("Welcome to Komodo DevTeams\n" +
+                "===========Developer Management==========\n" +
+                "1. View All Developers\n" +
+                "2. View Developer by Id\n" +
+                "3. Add Developer\n" +
+                "4. Update Existing Developer\n" +
+                "5. Delete Existing Developer\n" +
+                "===========Dev Team Management============\n" +
+                "6. View All DevTeams\n" +
+                "7. View DevTeam by Id\n" +
+                "8. Add DevTeam\n" +
+                "9. Update Existing DevTeam\n" +
+                "10. Delete Existing Devteam\n" +
+                "====================Bonus================\n" +
+                "11. Developers with PluralSight Account\n" +
+                "12. Add Multiple Developers to a team\n" +
+                "====================Exit App================\n" +
                 "00. Exit Application");
 
             string userInput = Console.ReadLine()!;
@@ -53,7 +53,7 @@ public class ProgramUI
                     ViewDeveloperByID();
                     break;
                 case "3":
-                    CreateDeveloper();
+                    AddDeveloper();
                     break;
                 case "4":
                     UpdateDeveloper();
@@ -77,7 +77,7 @@ public class ProgramUI
                     DeleteExistingDevTeam();
                     break;
                 case "11":
-                    DevelopersWithoutPluralSightAccount();
+                    DevelopersWithPluralSightAccount();
                     break;
                 case "12":
                     AddMultipleDevelopersToATeam();
@@ -108,10 +108,6 @@ public class ProgramUI
         return false;
     }
 
-    private void AddMultipleDevelopersToATeam()
-    {
-        throw new NotImplementedException();
-    }
 
 
     private void DeleteExistingDevTeam()
@@ -137,6 +133,28 @@ public class ProgramUI
     private void AddDevTeam()
     {
         throw new NotImplementedException();
+    }
+
+    private void AddMultipleDevelopersToATeam()
+    {
+        throw new NotImplementedException();
+    }
+    
+    private void DevelopersWithPluralSightAccount()
+    {
+        List<Developer> devsWoPS = _dRepo.GetDevelopersWithoutPluralsight();
+
+        if (devsWoPS.Count() > 0)
+            foreach (Developer dev in devsWoPS)
+            {
+                DisplayDevData(dev);
+            }
+        else
+        {
+            System.Console.WriteLine("Every Developer has PluralSight");
+        }
+        
+        PressAnyKey();
     }
 
     private void DeleteDeveloper()
@@ -249,7 +267,7 @@ public class ProgramUI
         PressAnyKey();
     }
 
-    private void CreateDeveloper()
+    private void AddDeveloper()
     {
         try
         {
@@ -305,10 +323,10 @@ public class ProgramUI
             int userInputDevId = int.Parse(Console.ReadLine()!);
             ValidateDeveloperInDatabaseData(userInputDevId);
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             SomethingWentWrong();
-        // if it doesn't work display the error, swallow the error and continue running the application.
+            // if it doesn't work display the error, swallow the error and continue running the application.
             System.Console.WriteLine(ex.Message);
         }
         PressAnyKey();
@@ -317,7 +335,7 @@ public class ProgramUI
     private bool ValidateDeveloperInDatabaseData(int userInputDevId)
     {
         Developer dev = GetDeveloperDataFromDv(userInputDevId);
-        if(dev != null)
+        if (dev != null)
         {
             Console.Clear();
             DisplayDevData(dev);
@@ -366,7 +384,7 @@ public class ProgramUI
 
     private void ValidateDeveloperDatabaseData(List<Developer> devsInDb)
     {
-        if(devsInDb.Count > 0)
+        if (devsInDb.Count > 0)
         {
             Console.Clear();
             foreach (Developer dev in devsInDb)
@@ -383,10 +401,5 @@ public class ProgramUI
     private void DisplayDevData(Developer dev)
     {
         System.Console.WriteLine(dev);
-    }
-
-    private void DevelopersWithoutPluralSightAccount()
-    {
-        throw new NotImplementedException();
     }
 }
