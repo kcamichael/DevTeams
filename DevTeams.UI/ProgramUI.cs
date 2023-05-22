@@ -316,7 +316,7 @@ public class ProgramUI
             System.Console.WriteLine("Please input a Developer Id");
             int userInputDevId = int.Parse(Console.ReadLine()!);
 
-            Developer selectedDev = _dRepo.GetDeveloperByID(userInputDevId);
+            Developer selectedDev = _dRepo.GetDeveloperById(userInputDevId);
 
             if (selectedDev != null)
             {

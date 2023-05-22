@@ -47,7 +47,7 @@ public class DevTeamRepository
                 return team;
             }
         }
-        return null;
+        return null!;
 
         //* return _devTeamDb.SingleOrDefault(team => team.ID == devTeamId);
     }
@@ -99,14 +99,14 @@ public class DevTeamRepository
     //Seed
     public void Seed()
     {
-        DeveloperTeam fire = new DeveloperTeam()
+        DeveloperTeam Js = new DeveloperTeam()
         {
             TeamName = "Java Script Devs"
         };
         Js.Developers.Add(_devRepo.GetDeveloperById(3));     //damon
 
 
-        DeveloperTeam ice = new DeveloperTeam()
+        DeveloperTeam cSharp = new DeveloperTeam()
         {
             TeamName = "C# Sharp Devs"
         };
