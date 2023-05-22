@@ -18,6 +18,6 @@ public class DeveloperTeam
     }
     //[Key]
     public int ID { get; set; }
-    public string TeamName { get; set; }= string.Empty
+    public string TeamName { get; set; }= string.Empty;
     public List<Developer> Developers { get; set; } = new List<Developer>();
 }

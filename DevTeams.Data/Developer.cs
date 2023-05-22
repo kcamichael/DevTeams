@@ -21,7 +21,7 @@ public class Developer
     public string LastName { get; set; } =string.Empty;
     public string FullName 
     { 
-        get;
+        get
         {
             return $"{FirstName} {LastName}";
         }
@@ -32,10 +32,9 @@ public bool HasPluralSight { get; set; }
     public override string ToString()
     {
         var str = $"ID: {ID}\n"+
-                    $"Full Name: {FullName}" +
-                    $"Has PluralSight Access: {HasPluralsight}\n" +
+                    $"Full Name: {FullName}\n" +
+                    $"Has PluralSight Access: {HasPluralSight}\n" +
                     "===================\n";
-        
         return str;
     }
 }
