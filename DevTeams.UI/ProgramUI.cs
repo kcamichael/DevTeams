@@ -50,7 +50,7 @@ public class ProgramUI
                     ViewAllDevelopers();
                     break;
                 case "2":
-                    ViewADeveloperByID();
+                    ViewDeveloperByID();
                     break;
                 case "3":
                     CreateDeveloper();
@@ -65,7 +65,7 @@ public class ProgramUI
                     ViewAllDevTeams();
                     break;
                 case "7":
-                    ViewADeveloperByID();
+                    ViewDeveloperByID();
                     break;
                 case "8":
                     AddDevTeam();
@@ -296,41 +296,50 @@ public class ProgramUI
         PressAnyKey();
     }
 
-    private void ViewADeveloperByID()
+    private void ViewDeveloperByID()
     {
         try
         {
             Console.Clear();
-            System.Console.WriteLine("== Developer Details ==");
-
-            foreach (var dev in _dRepo.GetDevelopers())
-            {
-                System.Console.WriteLine($"{dev.ID} - {dev.FullName}");
-            }
-            System.Console.WriteLine("=============================\n");
-
             System.Console.WriteLine("Please input a Developer Id");
             int userInputDevId = int.Parse(Console.ReadLine()!);
-
-            Developer selectedDev = _dRepo.GetDeveloperById(userInputDevId);
-
-            if (selectedDev != null)
-            {
-                Console.Clear();
-                System.Console.WriteLine(selectedDev);
-            }
-            else
-            {
-                System.Console.WriteLine($"The Developer with the id: {userInputDevId} doesn't Exist!");
-            }
+            ValidateDeveloperInDatabaseData(userInputDevId);
         }
-        catch (Exception ex)
+        catch(Exception ex)
         {
+            SomethingWentWrong();
+        // if it doesn't work display the error, swallow the error and continue running the application.
             System.Console.WriteLine(ex.Message);
         }
-
-
         PressAnyKey();
+    }
+
+    private bool ValidateDeveloperInDatabaseData(int userInputDevId)
+    {
+        Developer dev = GetDeveloperDataFromDv(userInputDevId);
+        if(dev != null)
+        {
+            Console.Clear();
+            DisplayDevData(dev);
+            return true;
+        }
+        else
+        {
+            Console.WriteLine($"The Developer with the id: {userInputDevId}doesn't Exist!");
+            return false;
+        }
+    }
+
+    private Developer GetDeveloperDataFromDv(int userInputDevId)
+    {
+        return _dRepo.GetDeveloperById(userInputDevId);
+    }
+
+    private void SomethingWentWrong()
+    {
+        System.Console.WriteLine("Something went wrong.\n" +
+        "Please Try Again.\n" +
+        "Returning to Developer Menu.\n");
     }
 
     private void ViewAllDevelopers()

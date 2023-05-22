@@ -32,7 +32,7 @@ public bool HasPluralSight { get; set; }
     public override string ToString()
     {
         var str = $"ID: {ID}\n"+
-                    $"Full Name: {FullName}" +
+                    $"Full Name: {FullName}\n" +
                     $"Has PluralSight Access: {HasPluralSight}\n" +
                     "===================\n";
         return str;
