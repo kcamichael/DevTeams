@@ -8,6 +8,7 @@ public class ProgramUI
     public ProgramUI()
     {
         _dTRepo = new DevTeamRepository(_dRepo);
+        _dTRepo.Seed();
     }
 
     private bool _isRunning = true;
@@ -108,7 +109,10 @@ public class ProgramUI
         return false;
     }
 
-
+    private void AddMultipleDevelopersToATeam()
+    {
+        throw new NotImplementedException();
+    }
 
     private void DeleteExistingDevTeam()
     {
@@ -117,29 +121,182 @@ public class ProgramUI
 
     private void UpdateExistingDevTeam()
     {
-        throw new NotImplementedException();
-    }
+        Console.Clear();
+        System.Console.WriteLine("== Developer Team Listing ==");
+        GetDevTeamData();
+        List<DeveloperTeam> dTeam = _dTRepo.GetDeveloperTeam();
+        if(dTeam.Count() > 0)
+        {
+            System.Console.WriteLine("Please select a DevTeamId for Update.");
+            int userInputDevTeamId = int.Parse(Console.ReadLine()!);
+            DeveloperTeam team = _dTRepo.GetDeveloperTeam(userInputDevTeamId);
 
-    private void ViewDevTeamByID()
-    {
-        throw new NotImplementedException();
-    }
-
-    private void ViewAllDevTeams()
-    {
-        throw new NotImplementedException();
+            if(team!= null)
+            {
+                DeveloperTeam updatedTeamData = InitializeDTeamCreation();
+                if(_dTRepo.UpdateDevTeam(team.ID,updatedTeamData))
+                {
+                    System.Console.WriteLine("Success!");
+                }
+                else
+                {
+                    System.Console.WriteLine("fail");
+                }
+            }
+            else
+            {
+                System.Console.WriteLine("Sorry you used an invalid ID.");
+            }
+        }
     }
 
     private void AddDevTeam()
     {
-        throw new NotImplementedException();
+        Console.Clear();
+        DeveloperTeam dTeam = InitializeDTeamCreation();
+
+        if(_dTRepo.AddDevTeam(dTeam))
+        {
+            System.Console.WriteLine("Success!");
+        }
+        else
+        {
+            System.Console.WriteLine("Fail!");
+        }
+        PressAnyKey();
     }
 
-    private void AddMultipleDevelopersToATeam()
+    private DeveloperTeam InitializeDTeamCreation()
     {
-        throw new NotImplementedException();
+        DeveloperTeam team = new DeveloperTeam();
+        try
+        {
+            DeveloperTeam team = new DeveloperTeam();
+
+            System.Console.WriteLine("Please enter the team name");
+            team.TeamName = Console.ReadLine()!;
+
+            // We nee a bool that allows us to add members to our team
+            bool hasFilledPositions = false;
+
+            //Create a List for dynamic display
+            List<Developer> auxDevelopers = _dRepo.GetDevelopers();
+
+            while(hasFilledPositions == false)
+            {
+                System.Console.WriteLine("Does this team have any developers y/n?");
+                string userInputAnyDevs = Console.ReadLine()!.ToLower();
+                if(userInputAnyDevs == "y")
+                {
+                    if(auxDevelopers.Count() > 0)
+                    {
+                        DisplayDevelopersInDb(auxDevelopers);
+                        
+                        System.Console.WriteLine("Select a developer by ID");
+                        int userInputDevId = int.Parse(Console.ReadLine()!);
+
+                        Developer selectedDeveloper = _dRepo.GetDeveloperById(userInputDevId);
+
+                        if(selectedDeveloper != null)
+                        {
+                            team.Developers.Add(selectedDeveloper);
+                            auxDevelopers.Remove(selectedDeveloper);
+                        }
+                        else
+                        {
+                            System.Console.WriteLine("Sorry, the developer doesn't exist!");
+                        }
+                    }
+                    else
+                    {
+                        System.Console.WriteLine("There are no Developer's in the Database");
+                        PressAnyKey();
+                        break;
+                    }
+                }
+                else
+                {
+                    hasFilledPositions = true;
+                }
+            }
+            return team;
+        }
+        catch(Exception ex)
+        {
+            System.Console.WriteLine(ex.Message);
+            SomethingWentWrong();
+        }
+        return null;
     }
-    
+
+    private void DisplayDevelopersInDb(List<Developer> auxDevelopers)
+    {
+        if(auxDevelopers.Count() > 0)
+        {
+            foreach (Developer dev in auxDevelopers)
+            {
+                System.Console.WriteLine(dev);
+            }
+        }
+    }
+
+    private void ViewDevTeamByID()
+    {
+        Console.Clear();
+        System.Console.WriteLine("== Developer Team Listing ==");
+        GetDevTeamData();
+        List<DeveloperTeam> devTeam = _dTRepo.GetDeveloperTeam();
+        if(devTeam.Count > 0)
+        {
+            System.Console.WriteLine("Select Dev Team by ID");
+            int userInputDevTeamId = int.Parse(Console.ReadLine()!);
+            ValidateDevTeamData(userInputDevTeamId);
+        }
+        PressAnyKey();
+    }
+
+    private void ValidateDevTeamData(int userInputDevTeamId)
+    {
+        DeveloperTeam team = _dTRepo.GetDeveloperTeam(userInputDevTeamId);
+        if(team != null)
+        {
+            DisplayDeveloperTeamData(team);
+        }
+        else
+        {
+            System.Console.WriteLine("Sorry Team doesn't Exist!");
+        }
+    }
+
+    private void ViewAllDevTeams()
+    {
+        Console.Clear();
+        System.Console.WriteLine("== Developer Team Listing ==");
+        GetDevTeamData();
+        PressAnyKey();
+    }
+
+    private void GetDevTeamData()
+    {
+        List<DeveloperTeam> dTeams = _dTRepo.GetDeveloperTeam();
+        if(dTeams.Count > 0)
+        {
+            foreach (DeveloperTeam team in dTeams)
+            {
+                DisplayDeveloperTeamData(team);
+            }
+        }
+        else
+        {
+            System.Console.WriteLine("There are no available Developer Teams!");
+        }
+    }
+
+    private void DisplayDeveloperTeamData(DeveloperTeam team)
+    {
+        System.Console.WriteLine(team);
+    }
+
     private void DevelopersWithPluralSightAccount()
     {
         List<Developer> devsWoPS = _dRepo.GetDevelopersWithoutPluralsight();
