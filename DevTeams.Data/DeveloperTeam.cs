@@ -1,3 +1,4 @@
+//ctrl + b -> hide explorer
 
 public class DeveloperTeam
 {
@@ -16,8 +17,22 @@ public class DeveloperTeam
         TeamName = teamName;
         Developers = developers;
     }
+    
     //[Key]
     public int ID { get; set; }
     public string TeamName { get; set; }= string.Empty;
     public List<Developer> Developers { get; set; } = new List<Developer>();
+
+    public override string ToString()
+    {
+        var str =   $"ID: {ID}\n"+
+                    $"Full Name: {TeamName}" +
+                    "===================\n";
+        foreach (Developer dev in Developers)
+            {
+                str += $"{dev}" + "/n";
+            }
+            
+        return str;
+    }
 }

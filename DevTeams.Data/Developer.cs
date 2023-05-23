@@ -28,7 +28,7 @@ public class Developer
     }
 public bool HasPluralSight { get; set; }
 
-//Is everytime I do: Developer.ToString() I want to be able to populate the Developer's Name and whether or not they have PluralSight
+//Is every time I do: Developer.ToString() I want to be able to populate the Developer's Name and whether or not they have PluralSight
     public override string ToString()
     {
         var str = $"ID: {ID}\n"+
