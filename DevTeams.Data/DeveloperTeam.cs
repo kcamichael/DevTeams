@@ -26,12 +26,19 @@ public class DeveloperTeam
     public override string ToString()
     {
         var str =   $"ID: {ID}\n"+
-                    $"Full Name: {TeamName}" +
+                    $"Team Name: {TeamName}" +
                     "===================\n";
-        foreach (Developer dev in Developers)
+        if(Developers.Count()>0)
+        {
+            foreach (Developer dev in Developers)
             {
-                str += $"{dev}" + "/n";
+                str += $"{dev}\n";
             }
+        }
+        else
+        {
+            System.Console.WriteLine("No Avail.Devs.");
+        }
             
         return str;
     }

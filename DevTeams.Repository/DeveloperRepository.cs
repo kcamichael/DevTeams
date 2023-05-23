@@ -53,7 +53,7 @@ public class DeveloperRepository
                 return developer;
             }
         }
-        return null;
+        return null!;
     }
 
     //Update
